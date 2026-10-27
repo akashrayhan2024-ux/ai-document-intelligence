@@ -1,0 +1,14 @@
+Invoice Number,INV-2026-001
+Invoice Date,2026-10-15
+Supplier Name,Apex Cloud Solutions Inc.
+Customer Name,Global Logistics Corp.
+Currency,USD
+
+Item Description,Quantity,Unit Price,Amount
+Cloud Server Compute Hours,10,25.00,250.00
+Dedicated IP Allocation,2,15.00,30.00
+Enterprise Support SLA,1,120.00,120.00
+
+Subtotal,400.00
+Tax,40.00
+Grand Total,440.00

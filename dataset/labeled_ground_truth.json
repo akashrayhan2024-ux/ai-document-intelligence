@@ -1,0 +1,65 @@
+{
+  "invoice_apex_cloud.csv": {
+    "invoice_number": "INV-2026-001",
+    "invoice_date": "2026-10-15",
+    "supplier_name": "Apex Cloud Solutions Inc.",
+    "customer_name": "Global Logistics Corp.",
+    "subtotal": 400,
+    "tax": 40,
+    "total": 440,
+    "currency": "USD",
+    "line_items_count": 3,
+    "expected_valid": true,
+    "requires_manual_review": false
+  },
+  "nexus_hardware_multisheet.xlsx": {
+    "invoice_number": "INV-88902",
+    "invoice_date": "2026-09-20",
+    "supplier_name": "Nexus Enterprise Hardware",
+    "customer_name": "Starlight Tech Ltd.",
+    "subtotal": 1190,
+    "tax": 119,
+    "total": 1309,
+    "currency": "USD",
+    "line_items_count": 3,
+    "expected_valid": true,
+    "requires_manual_review": false
+  },
+  "discrepancy_invoice.csv": {
+    "invoice_number": "INV-FAIL-999",
+    "invoice_date": "2026-10-18",
+    "supplier_name": "Faulty Hardware Co.",
+    "customer_name": "Alpha Industries",
+    "subtotal": 500,
+    "tax": 50,
+    "total": 600,
+    "currency": "USD",
+    "line_items_count": 1,
+    "expected_valid": false,
+    "requires_manual_review": true
+  },
+  "duplicate_apex_cloud.csv": {
+    "invoice_number": "INV-2026-001",
+    "supplier_name": "Apex Cloud Solutions Inc.",
+    "total": 440,
+    "expected_duplicate": true,
+    "requires_manual_review": true
+  },
+  "sample_document.pdf": {
+    "invoice_number": "INV-90412",
+    "invoice_date": "2026-10-20",
+    "supplier_name": "Vertex AI Solutions LLC",
+    "customer_name": "Horizon Robotics Corp.",
+    "subtotal": 1350,
+    "tax": 135,
+    "total": 1485,
+    "currency": "USD",
+    "line_items_count": 2,
+    "expected_valid": true,
+    "requires_manual_review": false
+  },
+  "corrupted_document.bin": {
+    "expected_status": "failed",
+    "error_type": "CORRUPTED_FILE"
+  }
+}

@@ -1,0 +1,12 @@
+Invoice Number,INV-FAIL-999
+Invoice Date,2026-10-18
+Supplier Name,Faulty Hardware Co.
+Customer Name,Alpha Industries
+Currency,USD
+
+Item Description,Quantity,Unit Price,Amount
+Industrial Power Cable,5,100.00,500.00
+
+Subtotal,500.00
+Tax,50.00
+Grand Total,600.00
