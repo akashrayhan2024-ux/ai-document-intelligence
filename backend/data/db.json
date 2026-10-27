@@ -8,50 +8,50 @@
       "status": "completed",
       "raw_text": "",
       "error_message": null,
-      "created_at": "2026-10-27T12:57:45.508Z",
-      "updated_at": "2026-10-27T12:57:45.508Z"
+      "created_at": "2026-10-27T18:45:07.900Z",
+      "updated_at": "2026-10-27T18:45:07.900Z"
     }
   ],
   "extractions": {
     "test-doc-001": {
       "invoice_number": "INV-TEST",
       "total": 150,
-      "extracted_at": "2026-10-27T12:57:45.515Z"
+      "extracted_at": "2026-10-27T18:45:07.903Z"
     }
   },
   "validations": {},
   "audit_logs": [
     {
-      "id": "audit_1793105865520_982l",
+      "id": "audit_1793126707906_ynij",
       "document_id": "test-doc-001",
       "field": "total",
       "original_value": 100,
       "corrected_value": 150,
       "user": "Senior Auditor",
-      "timestamp": "2026-10-27T12:57:45.520Z"
+      "timestamp": "2026-10-27T18:45:07.906Z"
     }
   ],
   "processing_history": [
     {
-      "id": "hist_1793105865508_9d1w",
+      "id": "hist_1793126707900_0yk5",
       "document_id": "test-doc-001",
       "event": "DOCUMENT_CREATED",
       "details": "File test.pdf ingested.",
-      "timestamp": "2026-10-27T12:57:45.508Z"
+      "timestamp": "2026-10-27T18:45:07.901Z"
     },
     {
-      "id": "hist_1793105865515_qrmg",
+      "id": "hist_1793126707903_dz51",
       "document_id": "test-doc-001",
       "event": "AI_EXTRACTION_COMPLETED",
       "details": "Structured fields extracted.",
-      "timestamp": "2026-10-27T12:57:45.515Z"
+      "timestamp": "2026-10-27T18:45:07.903Z"
     },
     {
-      "id": "hist_1793105865520_x34z",
+      "id": "hist_1793126707906_3gxv",
       "document_id": "test-doc-001",
       "event": "MANUAL_CORRECTION",
       "details": "Field 'total' modified by Senior Auditor.",
-      "timestamp": "2026-10-27T12:57:45.520Z"
+      "timestamp": "2026-10-27T18:45:07.906Z"
     }
   ]
 }

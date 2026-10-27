@@ -68,14 +68,14 @@ function deterministicExtraction(rawText) {
   else if (/BDT|Tk/i.test(text)) currency = 'BDT';
   else if (/CAD/i.test(text)) currency = 'CAD';
 
-  // Invoice Number detection
-  const invMatch = text.match(/(?:invoice\s*(?:no|number|#)|inv\s*#|bill\s*#)[\s:]*([A-Za-z0-9-_]+)/i);
+  // Invoice Number detection (handles colon, comma, equals, and spaces)
+  const invMatch = text.match(/(?:invoice\s*(?:no|number|#)|inv\s*#|bill\s*#)[\s:,=]*([A-Za-z0-9-_]+)/i);
   if (invMatch && invMatch[1]) {
     invoice_number = invMatch[1].trim();
   }
 
   // Invoice Date detection
-  const dateMatch = text.match(/(?:date|invoice\s*date|billing\s*date)[\s:]*([0-9]{4}[-/][0-9]{1,2}[-/][0-9]{1,2}|[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{2,4}|[A-Za-z]+\s+[0-9]{1,2},?\s+[0-9]{4})/i);
+  const dateMatch = text.match(/(?:invoice\s*date|billing\s*date|date)[\s:,=]*([0-9]{4}[-/][0-9]{1,2}[-/][0-9]{1,2}|[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{2,4}|[A-Za-z]+\s+[0-9]{1,2},?\s+[0-9]{4})/i);
   if (dateMatch && dateMatch[1]) {
     const rawDate = dateMatch[1].trim();
     const parsedDate = new Date(rawDate);
@@ -86,32 +86,32 @@ function deterministicExtraction(rawText) {
     }
   }
 
-  // Supplier Name detection (often near top or following 'From:' / 'Vendor:')
-  const supplierMatch = text.match(/(?:from|vendor|supplier|issued\s*by)[\s:]*([^\n,]+)/i);
+  // Supplier Name detection (handles 'Supplier Name,', 'Supplier:', 'Vendor,', etc.)
+  const supplierMatch = text.match(/(?:supplier\s*name|vendor\s*name|supplier|vendor|from|issued\s*by)[\s:,=]+([^\r\n,]+)/i);
   if (supplierMatch && supplierMatch[1]) {
     supplier_name = supplierMatch[1].trim();
   } else if (lines.length > 0 && !lines[0].toLowerCase().includes('invoice') && lines[0].length < 60) {
     supplier_name = lines[0].trim();
   }
 
-  // Customer Name detection ('Bill To:', 'Customer:', 'Sold To:')
-  const custMatch = text.match(/(?:bill\s*to|customer|sold\s*to|client)[\s:]*([^\n,]+)/i);
+  // Customer Name detection ('Customer Name,', 'Bill To:', 'Customer:', 'Sold To:')
+  const custMatch = text.match(/(?:customer\s*name|client\s*name|customer|bill\s*to|sold\s*to|client)[\s:,=]+([^\r\n,]+)/i);
   if (custMatch && custMatch[1]) {
     customer_name = custMatch[1].trim();
   }
 
-  // Financial amounts: Subtotal, Tax, Total
-  const subtotalMatch = text.match(/\bsubtotal[\s:]*[$€£]?\s*([0-9,]+\.?[0-9]*)/i);
+  // Financial amounts: Subtotal, Tax, Total (handles percentages like Tax (10%))
+  const subtotalMatch = text.match(/\bsubtotal[\s:,=]*[$€£]?\s*([0-9,]+\.?[0-9]*)/i);
   if (subtotalMatch && subtotalMatch[1]) {
     subtotal = parseFloat(subtotalMatch[1].replace(/,/g, ''));
   }
 
-  const taxMatch = text.match(/\b(?:tax|vat|gst)[\s:]*[$€£]?\s*([0-9,]+\.?[0-9]*)/i);
+  const taxMatch = text.match(/\b(?:tax|vat|gst)(?:\s*\([^)]*\))?[\s:,=]*[$€£]?\s*([0-9,]+\.?[0-9]*)/i);
   if (taxMatch && taxMatch[1]) {
     tax = parseFloat(taxMatch[1].replace(/,/g, ''));
   }
 
-  const totalMatch = text.match(/\b(?:grand\s*total|total\s*amount|balance\s*due|total)\b[\s:]*[$€£]?\s*([0-9,]+\.?[0-9]*)/i);
+  const totalMatch = text.match(/\b(?:grand\s*total|total\s*amount|balance\s*due|total)\b[\s:,=]*[$€£]?\s*([0-9,]+\.?[0-9]*)/i);
   if (totalMatch && totalMatch[1]) {
     total = parseFloat(totalMatch[1].replace(/,/g, ''));
   }
