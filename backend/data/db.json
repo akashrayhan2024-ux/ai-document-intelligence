@@ -129,7 +129,7 @@
       "customer_name": "Alpha Industries",
       "subtotal": 500,
       "tax": 50,
-      "total": 600,
+      "total": 550,
       "currency": "USD",
       "line_items": [
         {
@@ -193,19 +193,12 @@
       "validated_at": "2026-11-01T09:19:04.325Z"
     },
     "12e0ee89-735b-49f9-a1a4-bffb6dab2dc9": {
-      "is_valid": false,
-      "requires_manual_review": true,
-      "errors": [
-        {
-          "rule": "MATH_INCONSISTENCY_TOTAL",
-          "field": "total",
-          "message": "Calculation mismatch: Subtotal (500) + Tax (50) = 550, but Total is 600 (Difference: 50.00)",
-          "severity": "error"
-        }
-      ],
-      "error_count": 1,
+      "is_valid": true,
+      "requires_manual_review": false,
+      "errors": [],
+      "error_count": 0,
       "warning_count": 0,
-      "validated_at": "2026-11-01T09:19:25.516Z"
+      "validated_at": "2026-11-01T09:31:50.339Z"
     },
     "ad8ac91b-c8d5-4347-8a14-0d2c0f3e5de8": {
       "is_valid": true,
@@ -223,7 +216,17 @@
       "validated_at": "2026-11-01T09:19:04.350Z"
     }
   },
-  "audit_logs": [],
+  "audit_logs": [
+    {
+      "id": "audit_1793525510333_o345",
+      "document_id": "12e0ee89-735b-49f9-a1a4-bffb6dab2dc9",
+      "field": "total",
+      "original_value": 600,
+      "corrected_value": 550,
+      "user": "Lead Reviewer",
+      "timestamp": "2026-11-01T09:31:50.333Z"
+    }
+  ],
   "processing_history": [
     {
       "id": "hist_1793524744286_l77t",
@@ -406,6 +409,20 @@
       "event": "VALIDATION_COMPLETED",
       "details": "Validation: FAILED (1 issue(s))",
       "timestamp": "2026-11-01T09:19:25.518Z"
+    },
+    {
+      "id": "hist_1793525510334_uvga",
+      "document_id": "12e0ee89-735b-49f9-a1a4-bffb6dab2dc9",
+      "event": "MANUAL_CORRECTION",
+      "details": "Field 'total' modified by Lead Reviewer.",
+      "timestamp": "2026-11-01T09:31:50.334Z"
+    },
+    {
+      "id": "hist_1793525510339_93zn",
+      "document_id": "12e0ee89-735b-49f9-a1a4-bffb6dab2dc9",
+      "event": "VALIDATION_COMPLETED",
+      "details": "Validation: PASSED (0 issue(s))",
+      "timestamp": "2026-11-01T09:31:50.339Z"
     }
   ]
 }
