@@ -164,6 +164,16 @@ class Database {
     return log;
   }
 
+  deleteDocument(id) {
+    this.data.documents = this.data.documents.filter(d => d.id !== id);
+    delete this.data.extractions[id];
+    delete this.data.validations[id];
+    this.data.audit_logs = this.data.audit_logs.filter(a => a.document_id !== id);
+    this.data.processing_history = this.data.processing_history.filter(h => h.document_id !== id);
+    this.persist();
+    return true;
+  }
+
   // Timeline history
   logHistory(docId, event, details) {
     this.data.processing_history.push({

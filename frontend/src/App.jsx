@@ -76,12 +76,32 @@ export default function App() {
     }
   };
 
+  const handleDeleteDoc = async (docId) => {
+    try {
+      await fetch(`/api/documents/${docId}`, { method: 'DELETE' });
+      loadData(false);
+    } catch (err) {
+      alert('Delete error: ' + err.message);
+    }
+  };
+
+  const handleClearAll = async () => {
+    if (!confirm('Reset all documents for a clean demo?')) return;
+    try {
+      await fetch('/api/documents/clear', { method: 'POST' });
+      loadData(true);
+    } catch (err) {
+      alert('Clear error: ' + err.message);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       <Navbar
         onUploadClick={() => setIsUploadOpen(true)}
         onCrossVerifyClick={() => setIsCrossVerifyOpen(true)}
         onRefresh={() => loadData(true)}
+        onClearClick={handleClearAll}
         loading={loading}
       />
 
@@ -92,6 +112,7 @@ export default function App() {
           documents={documents}
           onSelectDoc={(id) => setSelectedDocId(id)}
           onReprocess={handleReprocess}
+          onDeleteDoc={handleDeleteDoc}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           searchMode={searchMode}

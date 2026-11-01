@@ -51,6 +51,12 @@ app.post('/api/documents/upload', upload.array('files', 20), (req, res) => {
     const createdDocs = [];
 
     for (const file of req.files) {
+      // Remove any prior upload of the same file to prevent stale duplicate ghosts
+      const existing = db.data.documents.find(d => d.original_name === file.originalname);
+      if (existing) {
+        db.deleteDocument(existing.id);
+      }
+
       const ext = path.extname(file.originalname).toLowerCase().replace('.', '');
       const doc = db.insertDocument({
         id: uuidv4(),
@@ -146,7 +152,7 @@ app.put('/api/documents/:id/corrections', (req, res) => {
     // Re-run validation rules on updated extraction
     const updatedDoc = db.getDocument(req.params.id);
     const allDocs = db.getAllDocuments();
-    const newValidation = validateExtraction(updatedDoc.extraction, allDocs, req.params.id);
+    const newValidation = validateExtraction(updatedDoc.extraction, allDocs, req.params.id, updatedDoc.original_name);
     db.saveValidation(req.params.id, newValidation);
 
     res.json({
@@ -243,6 +249,30 @@ app.get('/api/stats', (req, res) => {
       successRate: total > 0 ? Math.round((completed / total) * 100) : 0,
       validationPassRate: completed > 0 ? Math.round((passed / completed) * 100) : 0
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * 10. DELETE /api/documents/:id - Delete document
+ */
+app.delete('/api/documents/:id', (req, res) => {
+  try {
+    db.deleteDocument(req.params.id);
+    res.json({ message: 'Document deleted successfully.' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * 11. POST /api/documents/clear - Clear all documents for a clean demo
+ */
+app.post('/api/documents/clear', (req, res) => {
+  try {
+    db.clearAll();
+    res.json({ message: 'All documents cleared.' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

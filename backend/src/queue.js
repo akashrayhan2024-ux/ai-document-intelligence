@@ -100,7 +100,7 @@ class ProcessingQueue {
 
       // 4. Data Validation Rules
       const allDocs = db.getAllDocuments();
-      const validation = validateExtraction(extraction, allDocs, docId);
+      const validation = validateExtraction(extraction, allDocs, docId, doc.original_name);
       db.saveValidation(docId, validation);
 
       // 5. Finalize status

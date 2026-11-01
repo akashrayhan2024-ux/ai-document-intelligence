@@ -1,7 +1,7 @@
 import React from 'react';
-import { FileText, Upload, GitCompare, RefreshCw, Sparkles, ShieldCheck } from 'lucide-react';
+import { FileText, Upload, GitCompare, RefreshCw, Sparkles, ShieldCheck, Trash2 } from 'lucide-react';
 
-export default function Navbar({ onUploadClick, onCrossVerifyClick, onRefresh, loading }) {
+export default function Navbar({ onUploadClick, onCrossVerifyClick, onRefresh, onClearClick, loading }) {
   return (
     <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -30,6 +30,15 @@ export default function Navbar({ onUploadClick, onCrossVerifyClick, onRefresh, l
             title="Refresh Data"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-sky-400' : ''}`} />
+          </button>
+
+          <button
+            onClick={onClearClick}
+            className="px-3 py-2 text-xs font-medium text-rose-400 bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 rounded-lg transition-all flex items-center space-x-1.5"
+            title="Reset All Documents (Clean Slate for Demo)"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Reset Demo</span>
           </button>
 
           <button

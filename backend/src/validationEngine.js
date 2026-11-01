@@ -12,7 +12,7 @@
 
 const FLOAT_TOLERANCE = 0.05; // Floating-point rounding tolerance
 
-function validateExtraction(extraction, existingDocuments = [], currentDocId = null) {
+function validateExtraction(extraction, existingDocuments = [], currentDocId = null, currentDocName = null) {
   const errors = [];
   const warnings = [];
   let requires_manual_review = false;
@@ -114,6 +114,8 @@ function validateExtraction(extraction, existingDocuments = [], currentDocId = n
 
     const isDuplicate = existingDocuments.some(doc => {
       if (currentDocId && doc.id === currentDocId) return false;
+      // Do not flag against another upload of the exact same file
+      if (currentDocName && doc.original_name && doc.original_name.toLowerCase() === currentDocName.toLowerCase()) return false;
       const docInv = doc.extraction?.invoice_number ? String(doc.extraction.invoice_number).trim().toLowerCase() : '';
       const docSup = doc.extraction?.supplier_name ? String(doc.extraction.supplier_name).trim().toLowerCase() : '';
       return docInv === normInv && docSup === normSup;

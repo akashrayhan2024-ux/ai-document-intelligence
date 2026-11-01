@@ -223,27 +223,33 @@ async function main() {
   // Test Group 7: Database & HITL Manual Correction Audit Trail
   console.log('\n--- Test Group 7: Database & Manual Correction Audit Log ---');
   runTest('Should record manual corrections and audit trail', () => {
-    db.clearAll();
-    const doc = db.insertDocument({
-      id: 'test-doc-001',
-      original_name: 'test.pdf',
-      file_type: 'pdf',
-      status: 'completed'
-    });
-    db.saveExtraction('test-doc-001', {
-      invoice_number: 'INV-TEST',
-      total: 100.00
-    });
+    const backup = JSON.parse(JSON.stringify(db.data));
+    try {
+      db.clearAll();
+      const doc = db.insertDocument({
+        id: 'test-doc-001',
+        original_name: 'test.pdf',
+        file_type: 'pdf',
+        status: 'completed'
+      });
+      db.saveExtraction('test-doc-001', {
+        invoice_number: 'INV-TEST',
+        total: 100.00
+      });
 
-    const audit = db.recordCorrection('test-doc-001', 'total', 100.00, 150.00, 'Senior Auditor');
-    assert.strictEqual(audit.document_id, 'test-doc-001');
-    assert.strictEqual(audit.field, 'total');
-    assert.strictEqual(audit.original_value, 100.00);
-    assert.strictEqual(audit.corrected_value, 150.00);
+      const audit = db.recordCorrection('test-doc-001', 'total', 100.00, 150.00, 'Senior Auditor');
+      assert.strictEqual(audit.document_id, 'test-doc-001');
+      assert.strictEqual(audit.field, 'total');
+      assert.strictEqual(audit.original_value, 100.00);
+      assert.strictEqual(audit.corrected_value, 150.00);
 
-    const updatedDoc = db.getDocument('test-doc-001');
-    assert.strictEqual(updatedDoc.extraction.total, 150.00);
-    assert.strictEqual(updatedDoc.audit_logs.length, 1);
+      const updatedDoc = db.getDocument('test-doc-001');
+      assert.strictEqual(updatedDoc.extraction.total, 150.00);
+      assert.strictEqual(updatedDoc.audit_logs.length, 1);
+    } finally {
+      db.data = backup;
+      db.persist();
+    }
   });
 
   console.log('\n=============================================================');

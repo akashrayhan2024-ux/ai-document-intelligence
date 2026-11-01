@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Search, Sparkles, FileText, CheckCircle, AlertTriangle, XCircle, RotateCcw, Eye, ArrowUpDown, Filter } from 'lucide-react';
+import { Search, Sparkles, FileText, CheckCircle, AlertTriangle, XCircle, RotateCcw, Eye, ArrowUpDown, Filter, Trash2 } from 'lucide-react';
 
 export default function DocumentList({
   documents,
   onSelectDoc,
   onReprocess,
+  onDeleteDoc,
   searchQuery,
   setSearchQuery,
   searchMode,
@@ -213,6 +214,14 @@ export default function DocumentList({
                           <span>Retry</span>
                         </button>
                       )}
+
+                      <button
+                        onClick={() => onDeleteDoc && onDeleteDoc(doc.id)}
+                        className="px-2 py-1 bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-400 rounded-lg text-xs transition-colors inline-flex items-center"
+                        title="Delete Document"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </td>
                   </tr>
                 );
